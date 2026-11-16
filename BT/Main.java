@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 
 class Sach {
+
     private String maSach;
     private String tieuDe;
     private String tacGia;
@@ -13,31 +14,70 @@ class Sach {
     public Sach() {
     }
 
+
     public Sach(String maSach, String tieuDe, String tacGia, int namXuatBan, int soLuong) {
-        this.maSach = maSach;
-        this.tieuDe = tieuDe;
-        this.tacGia = tacGia;
-        this.namXuatBan = namXuatBan;
-        this.soLuong = soLuong;
+        setMaSach(maSach);
+        setTieuDe(tieuDe);
+        setTacGia(tacGia);
+        setNamXuatBan(namXuatBan);
+        setSoLuong(soLuong);
     }
 
-    // Getter / Setter
-    public String getMaSach() { return maSach; }
-    public void setMaSach(String maSach) { this.maSach = maSach; }
 
-    public String getTieuDe() { return tieuDe; }
-    public void setTieuDe(String tieuDe) { this.tieuDe = tieuDe; }
+    public String getMaSach() {
+        return maSach;
+    }
 
-    public String getTacGia() { return tacGia; }
-    public void setTacGia(String tacGia) { this.tacGia = tacGia; }
+    public void setMaSach(String maSach) {
+        this.maSach = maSach;
+    }
 
-    public int getNamXuatBan() { return namXuatBan; }
-    public void setNamXuatBan(int namXuatBan) { this.namXuatBan = namXuatBan; }
+    public String getTieuDe() {
+        return tieuDe;
+    }
 
-    public int getSoLuong() { return soLuong; }
-    public void setSoLuong(int soLuong) { this.soLuong = soLuong; }
+    public void setTieuDe(String tieuDe) {
+        this.tieuDe = tieuDe;
+    }
 
-    // Phân loại tồn kho
+    public String getTacGia() {
+        return tacGia;
+    }
+
+    public void setTacGia(String tacGia) {
+        this.tacGia = tacGia;
+    }
+
+    public int getNamXuatBan() {
+        return namXuatBan;
+    }
+
+
+    public void setNamXuatBan(int namXuatBan) {
+        int currentYear = Year.now().getValue();
+        if (namXuatBan > 0 && namXuatBan <= currentYear) {
+            this.namXuatBan = namXuatBan;
+        } else {
+            System.out.println("Lỗi: năm xuất bản " + namXuatBan
+                    + " không hợp lệ (phải từ 1 đến " + currentYear + "), giữ nguyên giá trị cũ.");
+        }
+    }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+
+    public void setSoLuong(int soLuong) {
+        if (soLuong >= 0) {
+            this.soLuong = soLuong;
+        } else {
+            System.out.println("Lỗi: số lượng " + soLuong
+                    + " không hợp lệ (không được âm), giữ nguyên giá trị cũ.");
+        }
+    }
+
+
     public String tinhTonKho() {
         if (soLuong == 0) return "Hết sách";
         else if (soLuong <= 5) return "Sắp hết";
@@ -45,7 +85,7 @@ class Sach {
         else return "Còn nhiều";
     }
 
-    //YÊU CẦU 2: In toàn bộ thông tin cuốn sách
+
     public void hienThiThongTin() {
         System.out.println("Mã sách      : " + maSach);
         System.out.println("Tiêu đề      : " + tieuDe);
@@ -60,7 +100,7 @@ class Sach {
 public class Main {
     static Scanner sc = new Scanner(System.in);
 
-    //YÊU CẦU 4: Danh sách Sach bằng ArrayList
+
     static ArrayList<Sach> danhSachSach = new ArrayList<>();
 
     //Hàm đọc dữ liệu an toàn
@@ -117,6 +157,18 @@ public class Main {
         s1.hienThiThongTin();
         System.out.println("\nĐối tượng s2 (constructor rỗng + setter):");
         s2.hienThiThongTin();
+
+
+        System.out.println("\nThử gán dữ liệu không hợp lệ cho s1:");
+        s1.setNamXuatBan(3000);
+        s1.setNamXuatBan(-5);
+        s1.setSoLuong(-10);
+        System.out.println("Thông tin s1 sau khi thử (không bị thay đổi):");
+        s1.hienThiThongTin();
+
+
+        System.out.println("\nDùng getter: " + s2.getTieuDe() + " - " + s2.getTacGia()
+                + " (" + s2.getNamXuatBan() + ")");
     }
 
 
@@ -230,8 +282,8 @@ public class Main {
         int chon;
         do {
             System.out.println("\nCHƯƠNG TRÌNH QUẢN LÝ SÁCH TRONG THƯ VIỆN");
-            System.out.println("1. Yêu cầu 1 + 2 + 3: Tạo đối tượng Sach và hiển thị thông tin");
-            System.out.println("2. Yêu cầu 4: Quản lý danh sách Sach bằng ArrayList");
+            System.out.println("1. Tạo đối tượng Sach, kiểm tra getter/setter và dữ liệu không hợp lệ");
+            System.out.println("2. Quản lý danh sách Sach bằng ArrayList");
             System.out.println("0. Thoát chương trình");
             chon = docInt("Nhập lựa chọn: ");
 
@@ -246,4 +298,5 @@ public class Main {
         sc.close();
     }
 }
+
 
